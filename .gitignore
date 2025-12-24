@@ -1,0 +1,11 @@
+# C++
+*.exe
+*.o
+StatCalc/output/
+history.json
+
+# React
+stat-ui/node_modules/
+stat-ui/build/
+.DS_Store
+.vscode/
