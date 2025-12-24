@@ -1,5 +1,6 @@
 #ifndef HISTORY_MANAGER_H
 #define HISTORY_MANAGER_H
+
 #include <stack>
 #include <deque>
 #include <string>
@@ -15,8 +16,8 @@ struct CalcResult {
 
 class HistoryManager {
 private:
-    std::deque<CalcResult> history; // The bounded history (last 20)
-    std::stack<CalcResult> undoStack; // Stack for undo feature
+    std::deque<CalcResult> history;
+    std::stack<CalcResult> redoStack; // Second stack for Redo
     const std::string filename = "history.json";
 
 public:
@@ -24,14 +25,26 @@ public:
         CalcResult entry = {op, res};
         if (history.size() >= 20) history.pop_front();
         history.push_back(entry);
-        undoStack.push(entry);
+        
+        // Clear redo stack because a new action was taken
+        while(!redoStack.empty()) redoStack.pop();
         saveToFile();
     }
 
     void undo() {
         if (!history.empty()) {
+            redoStack.push(history.back());
             history.pop_back();
-            if(!undoStack.empty()) undoStack.pop();
+            saveToFile();
+        }
+    }
+
+    void redo() {
+        if (!redoStack.empty()) {
+            CalcResult entry = redoStack.top();
+            redoStack.pop();
+            if (history.size() >= 20) history.pop_front();
+            history.push_back(entry);
             saveToFile();
         }
     }
@@ -59,10 +72,9 @@ public:
 
     json getHistoryAsJson() {
         json j_list = json::array();
-        for (auto& item : history) {
-            j_list.push_back({{"op", item.operation}, {"res", item.result}});
-        }
+        for (auto& item : history) j_list.push_back({{"op", item.operation}, {"res", item.result}});
         return j_list;
     }
 };
-#endif
+
+#endif 
