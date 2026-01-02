@@ -1,49 +1,80 @@
 #ifndef BST_H
 #define BST_H
-#include <vector>
 
+#include <vector>
 struct Node {
-    double data;
-    Node *left, *right;
-    Node(double val) : data(val), left(nullptr), right(nullptr) {}
+    float data;
+    Node* left;
+    Node* right;
 };
+
+Node* newNode(float key) {
+    Node* temp = new Node;
+    temp->data = key;
+    temp->left = NULL;
+    temp->right = NULL;
+    return temp;
+}
 
 class BST {
 private:
     Node* root;
-    void insert(Node*& node, double val) {
-        if (!node) node = new Node(val);
-        else if (val < node->data) insert(node->left, val);
-        else insert(node->right, val);
+    void insertNode(Node* current, float key) {
+        if (current == NULL) {
+            current = newNode(key);
+            return;
+        }
+        if (key < current->data) {
+            insertNode(current->left, key);
+        } else {
+            insertNode(current->right, key);
+        }
     }
-    void inOrder(Node* node, std::vector<double>& v) {
-        if (!node) return;
-        inOrder(node->left, v);
-        v.push_back(node->data);
-        inOrder(node->right, v);
+
+    // in-order traversal to get sorted values
+    void inOrderTraversal(Node* current, std::vector<float>& result) {
+        if (current == NULL) return;
+        inOrderTraversal(current->left, result);
+        result.push_back(current->data);
+        inOrderTraversal(current->right, result);
     }
-    void deleteTree(Node* node) {
-        if (!node) return;
-        deleteTree(node->left);
-        deleteTree(node->right);
-        delete node;
+
+    //  delete all nodes (post-order)
+    void deleteTree(Node* current) {
+        if (current == NULL) return;
+        deleteTree(current->left);
+        deleteTree(current->right);
+        delete current;
     }
 
 public:
-    BST() : root(nullptr) {}
-    ~BST() { deleteTree(root); }
-    
-    void add(double val) { insert(root, val); }
-    
-    void clear() { 
-        deleteTree(root);
-        root = nullptr; 
+    // Constructor
+    BST() {
+        root = NULL;
     }
 
-    std::vector<double> getSorted() {
-        std::vector<double> v;
-        inOrder(root, v);
-        return v;
+    // Destructor
+    ~BST() {
+        deleteTree(root);
+    }
+
+    // Add a value to BST
+    void add(float key) {
+        insertNode(root, key);
+    }
+
+    // Clear the entire tree
+    void clear() {
+        deleteTree(root);
+        root = NULL;
+    }
+
+    // Return sorted values
+    std::vector<float> getSorted() {
+        std::vector<float> sortedValues;
+        inOrderTraversal(root, sortedValues);
+        return sortedValues;
     }
 };
+
 #endif

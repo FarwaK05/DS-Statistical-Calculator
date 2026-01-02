@@ -17,7 +17,7 @@ struct CalcResult {
 class HistoryManager {
 private:
     std::deque<CalcResult> history;
-    std::stack<CalcResult> redoStack; // Second stack for Redo
+    std::stack<CalcResult> redoStack;
     const std::string filename = "history.json";
 
 public:
@@ -26,7 +26,6 @@ public:
         if (history.size() >= 20) history.pop_front();
         history.push_back(entry);
         
-        // Clear redo stack because a new action was taken
         while(!redoStack.empty()) redoStack.pop();
         saveToFile();
     }

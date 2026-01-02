@@ -134,7 +134,7 @@ int main() {
     svr.Post("/undo", [&](const Request&, Response& res) { history.undo(); res.status = 200; });
     svr.Post("/redo", [&](const Request&, Response& res) { history.redo(); res.status = 200; });
 
-    std::cout << "SERVER READY: Event Solver Active" << std::endl;
+    std::cout << "SERVER READY" << std::endl;
     svr.listen("0.0.0.0", 8080);
     return 0;
 }
