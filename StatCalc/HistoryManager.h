@@ -21,12 +21,27 @@ private:
     const std::string filename = "history.json";
 
 public:
+ void saveToFile() {
+        json j_list = json::array();
+        for (auto& item : history) {
+            j_list.push_back({{"op", item.operation}, {"res", item.result}});
+        }
+        std::ofstream file(filename);
+        file << j_list.dump(4);
+    }
+
     void addRecord(std::string op, double res) {
         CalcResult entry = {op, res};
-        if (history.size() >= 20) history.pop_front();
+
+        if (history.size() >= 20) {
+            history.pop_front();
+        }
         history.push_back(entry);
         
-        while(!redoStack.empty()) redoStack.pop();
+        while(!redoStack.empty())
+        {
+            redoStack.pop();
+        } 
         saveToFile();
     }
 
@@ -46,15 +61,6 @@ public:
             history.push_back(entry);
             saveToFile();
         }
-    }
-
-    void saveToFile() {
-        json j_list = json::array();
-        for (auto& item : history) {
-            j_list.push_back({{"op", item.operation}, {"res", item.result}});
-        }
-        std::ofstream file(filename);
-        file << j_list.dump(4);
     }
 
     void loadFromFile() {
