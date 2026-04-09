@@ -6,6 +6,8 @@ A full-stack statistical calculator with a **C++ backend server** and a **React.
 
 ## 🖥️ Preview
 
+> **StatPro** — Advanced Statistical & Probability Calculator
+
 The app is divided into three main sections:
 - **Dataset & Distribution** — Add values and visualize a bar chart in real time
 - **Basic Probability** — Compute combinations, permutations, and binomial probability
@@ -18,8 +20,12 @@ The app is divided into three main sections:
 ### 📈 Dataset & Distribution
 - Add values to a live dataset
 - Auto-renders a **bar chart** showing frequency distribution
+- Displays the dataset sequence visually
 - One-click calculations:
-  - **Mean**, **Median**, **Mode**, **Standard Deviation**
+  - **Mean**
+  - **Median**
+  - **Mode**
+  - **Standard Deviation**
 - **CLR ALL** button to reset the dataset
 
 ### 🎲 Basic Probability
@@ -32,18 +38,23 @@ The app is divided into three main sections:
 ### 🔀 Independent Event Solver
 - Inputs: `P(A)` and `P(B)`
 - Instantly computes:
-  - **P(A') NOT A**, **P(B') NOT B**
-  - **P(A∩B) INTERSECT**, **P(A∪B) UNION**
-  - **P(AΔB) XOR**, **P((A∪B)') NEITHER**
+  - **P(A') NOT A**
+  - **P(B') NOT B**
+  - **P(A∩B) INTERSECT**
+  - **P(A∪B) UNION**
+  - **P(AΔB) XOR**
+  - **P((A∪B)') NEITHER**
+- Each field has its own **CALC** button and a **+** (use result) shortcut
 - **RESET ALL FIELDS** to clear all inputs
 
 ### 🕓 History
-- Logs every calculation result automatically
-- **UNDO / REDO** support
-- **+** button on each entry to reuse results directly
+- Automatically logs every calculation result
+- Shows label + value (e.g. `MEAN 4.3750`, `P(ANB) 0.2000`)
+- **+ button** on each entry to reuse results directly
+- **UNDO / REDO** support for history navigation
 
 ### ⚡ Last Answer (ANS)
-- Tracks the last computed result in the top-right corner
+- Displays the **last computed result** in the top-right corner
 - **USE ANS** button to carry the result into the next calculation
 
 ---
@@ -52,8 +63,7 @@ The app is divided into three main sections:
 
 | Layer | Technology |
 |-------|------------|
-| Backend | C++ (`main.cpp`) |
-| HTTP Library | `httplib.h` — C++ HTTP server (cpp-httplib) |
+| Backend | C++ (`main.cpp`, `httplib.h`) |
 | Frontend | React.js |
 | Styling | CSS (`App.css`) |
 | Data Storage | JSON (`dataset.json`, `history.json`) |
@@ -66,38 +76,7 @@ The app is divided into three main sections:
 
 > ⚠️ Run **both** the backend and frontend for the app to work.
 
----
-
-### Step 1 — Download `httplib.h` (Required)
-
-`httplib.h` is **not included** in this repo. It is the library that enables the C++ backend to communicate with the React frontend over HTTP.
-
-Download it from the official GitHub repository:
-
-👉 **[https://github.com/yhirose/cpp-httplib](https://github.com/yhirose/cpp-httplib)**
-
-**How to set it up:**
-
-1. Go to the link above and click **Code → Download ZIP**, or clone it:
-   ```bash
-   git clone https://github.com/yhirose/cpp-httplib.git
-   ```
-2. Copy the `httplib.h` file from the downloaded folder.
-3. Paste it into the `StatCalc/` folder of this project (same folder as `main.cpp`).
-
-Your `StatCalc/` folder should then look like:
-```
-StatCalc/
-├── main.cpp
-├── httplib.h      ✅ placed here
-├── Calculator.h
-├── BST.h
-...
-```
-
----
-
-### Step 2 — Start the C++ Backend Server
+### Step 1 — Start the C++ Backend Server
 
 ```bash
 cd StatCalc
@@ -108,7 +87,7 @@ cd StatCalc
 
 The server starts and listens for API requests (default: `http://localhost:8080` — verify port in `main.cpp`).
 
-To **recompile** from source after placing `httplib.h`:
+To **recompile** from source:
 
 ```bash
 g++ main.cpp -o server -std=c++17
@@ -117,7 +96,7 @@ g++ main.cpp -o server -std=c++17
 
 ---
 
-### Step 3 — Start the React Frontend
+### Step 2 — Start the React Frontend
 
 Open a **new terminal**:
 
@@ -150,7 +129,6 @@ Opens automatically at **`http://localhost:3000`**.
 | Windows OS | Required to run `server.exe` directly |
 | G++ / MinGW | To recompile the C++ backend from source |
 | Node.js & npm | To run the React frontend |
-| `httplib.h` | Download from [cpp-httplib](https://github.com/yhirose/cpp-httplib) — enables C++ ↔ React HTTP connection |
 
 ---
 
