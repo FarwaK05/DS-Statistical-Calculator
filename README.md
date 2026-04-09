@@ -62,36 +62,6 @@ The app is divided into three main sections:
 
 ---
 
-## 📁 Project Structure
-
-```
-DS_CAL_PROJECT/
-│
-├── StatCalc/                  # C++ Backend
-│   ├── main.cpp               # Entry point — starts the HTTP server
-│   ├── Calculator.h           # Core statistics logic
-│   ├── BST.h                  # Binary Search Tree implementation
-│   ├── HistoryManager.h       # Manages calculation history (undo/redo)
-│   ├── httplib.h              # ⚠️ Must be downloaded separately (see below)
-│   ├── json.hpp               # JSON parsing library
-│   ├── dataset.json           # Input dataset storage
-│   ├── history.json           # Saved calculation history
-│   ├── server.exe             # Compiled backend executable (Windows)
-│   └── output/                # Build output directory
-│
-├── stat-ui/                   # React Frontend
-│   ├── src/
-│   │   ├── App.js             # Main React component
-│   │   ├── App.css            # Dark-theme styling
-│   │   └── index.js           # React entry point
-│   ├── public/
-│   └── package.json
-│
-└── .gitignore
-```
-
----
-
 ## 🚀 How to Run
 
 > ⚠️ Run **both** the backend and frontend for the app to work.
